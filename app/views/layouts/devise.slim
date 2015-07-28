@@ -1,0 +1,24 @@
+doctype html
+html
+  head
+    title 自由學者管理系統
+    = favicon_link_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
+    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = csrf_meta_tags
+  body
+    .container-fluid
+      .row
+        .col-md-4.col-md-offset-4
+          h3.title.page-header.text-center 自由學者管理系統
+      .row
+        .col-md-4.col-md-offset-4
+          .panel.panel-default
+            .panel-heading
+              .panel-title
+                = yield :title
+            .panel-body
+              = yield
+          = yield :extra_panels
+      .row
+        .col-md-12 = render 'common/footer'

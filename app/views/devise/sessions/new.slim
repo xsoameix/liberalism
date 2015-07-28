@@ -1,0 +1,13 @@
+= content_for :title
+  | 登入帳號
+= simple_form_for(resource, as: resource_name, url: session_path(resource_name),
+  html: {class: 'form-horizontal'},
+  wrapper: :horizontal_form_3) do |f|
+  = notice_message
+  = f.input :email, autofocus: true
+  = f.input :password, autocomplete: 'off'
+  .form-group
+    .col-sm-9.col-sm-offset-3
+      = devise_text_links
+      .pull-right
+        = f.button :submit, '登入'

@@ -1,0 +1,8 @@
+= simple_form_for(author, as: :author, html: {class: 'form-horizontal'}, wrapper: :horizontal_form_3) do |f|
+  = f.input :name, autofocus: true
+  = f.radio_buttons :genre, Author::Genre.map { |x| [x.title, x.to_s] },
+    checked: (author.genre or Author::Genre[0].to_s)
+  .form-group
+    .col-sm-9.col-sm-offset-3
+      .btn-group.pull-right role="group"
+        = f.button :submit, '確認'

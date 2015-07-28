@@ -1,0 +1,10 @@
+= content_for :title
+  | 重寄認証信
+= simple_form_for(resource, as: resource_name, url: confirmation_path(resource_name), html: {method: :post, class: 'form-horizontal'}, wrapper: :horizontal_form_3) do |f|
+  = notice_message
+  = f.input :email, autofocus: true, input_html: {value: (resource.pending_reconfirmation? ? resource.unconfirmed_email : resource.email)}
+  .form-group
+    .col-sm-9.col-sm-offset-3
+      .btn-group.pull-right role="group"
+        = devise_button_links
+        = f.button :submit, '確認'
