@@ -1,0 +1,12 @@
+h1 驗證帳戶
+hr
+
+p 親愛的使用者您好:
+p
+  | 您可以點選下方的連結驗證您的帳戶。
+p = link_to '驗證我的帳戶', confirmation_url(@resource, confirmation_token: @token)
+
+p 自由學者管理系統 敬上
+
+p
+  a href="https://genesis.xsoameix.ninja" 自由學者管理系統

@@ -1,0 +1,12 @@
+= content_for :title
+  | 修改密碼
+= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: {method: :put, class: 'form-horizontal'}, wrapper: :horizontal_form_3) do |f|
+  = notice_message
+  = f.hidden_field :reset_password_token
+  = f.input :password, autofocus: true, autocomplete: 'off'
+  = f.input :password_confirmation, autocomplete: 'off'
+  .form-group
+    .col-sm-9.col-sm-offset-3
+      .btn-group.pull-right role="group"
+        = devise_button_links
+        = f.button :submit, '確認'
