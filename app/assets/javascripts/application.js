@@ -24,4 +24,5 @@
 //= require codemirror
 //= require codemirror-markdown
 //= require codemirror-continuelist
-//= require_tree .
+//= require common
+//= require article

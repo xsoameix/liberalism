@@ -1,30 +1,32 @@
-ready = ->
+@App ||= {}
+
+# Setup datepicker
+class App.Datepicker
+  constructor: ->
+    @rangepicker = $('.input-daterange').datepicker({
+      language: 'zh-TW', container: '.input-daterange', oritation: 'top left'}
+    )
+    update = ->
+      $(this).children('input[type="text"]').each ->
+        (self = $(this)).next('input[type="hidden"]').val(
+          moment(self.val(), 'YYYY-MM-DD').format('YYYY-MM-DD'))
+    @updateEvents = [update]
+    @rangepicker.on 'changeDate', =>
+      @updateEvents.forEach (e) =>
+        e.call(@rangepicker)
+    .children('input[type="text"]').map (i) ->
+      self = $(this)
+      parsed = moment(self.next('input[type="hidden"]').val(), 'YYYY-MM-DD')
+      [[self, (if parsed.isValid() then parsed else moment().add(i, 'days'))]]
+    .each ->
+      @[0].datepicker('setDate', @[1].toDate())
+
+  addUpdateEvent: (e) ->
+    @updateEvents.push(e)
+
+$(document).on 'page:change', ->
   # Setup moment
   moment.locale('zh-tw')
-
-  # Setup datepicker
-  class Datepicker
-    constructor: ->
-      @rangepicker = $('.input-daterange').datepicker({
-        language: 'zh-TW', container: '.input-daterange', oritation: 'top left'}
-      )
-      update = ->
-        $(this).children('input[type="text"]').each ->
-          (self = $(this)).next('input[type="hidden"]').val(
-            moment(self.val(), 'YYYY-MM-DD').format('YYYY-MM-DD'))
-      @updateEvents = [update]
-      @rangepicker.on 'changeDate', =>
-        @updateEvents.forEach (e) => e.call(@rangepicker)
-      .children('input[type="text"]').map (i) ->
-        self = $(this)
-        parsed = moment(self.next('input[type="hidden"]').val(), 'YYYY-MM-DD')
-        [[self, (if parsed.isValid() then parsed else moment().add(i, 'days'))]]
-      .each ->
-        @[0].datepicker('setDate', @[1].toDate())
-
-    addUpdateEvent: (e) ->
-      @updateEvents.push(e)
-  window.Datepicker = new Datepicker
 
   # Setup data-confirm
   dataConfirmModal.setDefaults(
@@ -39,6 +41,7 @@ ready = ->
   # Active the checked radiobox
   $('input[checked="checked"]').parent('.btn').addClass('active')
 
+  # activate selectize.js plugin
+  App.GlobalSelect = $('select').selectize(sortField: 'text')
 
-$(document).ready ready
-$(document).on 'page:load', ready
+  App.GlobalDatepicker = new App.Datepicker

@@ -25,38 +25,22 @@
             dd = @article.title
             dt = @article.class.human_attribute_name(:subtitle)
             dd = @article.subtitle
-          = form_for(@article, html: {class: 'hidden'}) do |f|
-            = f.text_field :origin_id, value: @article.origin_name
-            = f.text_field :begin_date
-            = f.text_field :title
-            = f.text_field :subtitle
-            = f.text_area :body, as: :text
+          = simple_form_for(@article, as: :article, html: {class: 'hidden form-horizontal'}, wrapper: :horizontal_form_2) do |f|
+            = f.association :origin, value: @article.origin_name,
+              input_html: {data: {behavior: 'bind-stamp', name: 'article-origin'}}
+            = f.daterange '時間', :begin_date, '至', :end_date,
+              input_html: {data: {behavior: 'bind-stamp-date', name: 'article-origin'}}
+            = f.input :title,
+              input_html: {data: {behavior: 'bind', name: 'article-title'}}
+            = f.input :subtitle,
+              input_html: {data: {behavior: 'bind', name: 'article-subtitle'}}
+            = f.input :body, as: :text,
+              input_html: {data: {behavior: 'bind-body', name: 'article-body'}}
   .row
     .col-md-6.col-md-offset-3
       .panel.panel-default.panel-bright
         .panel-body
-          h2.title-preview
-          h3.subtitle-preview
-          .preview
-          b.text-right.stamp-preview
-= content_for :javascripts
-  coffee:
-    $().ready ->
-      # activate markdown preview
-      bind_input = (input, preview) ->
-        [input, preview] = [input, preview].map (x) -> $(x)[0]
-        preview.innerHTML = input.value
-      bind_input '[name="article[title]"]',        '.title-preview'
-      bind_input '[name="article[subtitle]"]',  '.subtitle-preview'
-      bind_input = (origin, begin_date, preview) ->
-        [origin, begin_date, preview] =
-          [origin, begin_date, preview].map (x) -> $(x)[0]
-        preview.innerHTML = markdown.toHTML(
-          [origin.value,
-           moment(begin_date.value, 'YYYY-MM-DD').format('l')].join(' '))
-      bind_input('[name="article[origin_id]"]',
-                 '[name="article[begin_date]"]', '.stamp-preview')
-      bind_input = (input, preview) ->
-        [input, preview] = [input, preview].map (x) -> $(x)[0]
-        preview.innerHTML = markdown.toHTML(input.value)
-      bind_input '[name="article[body]"]',               '.preview'
+          h2 data-behavior="bind" data-to="article-title"
+          h3 data-behavior="bind" data-to="article-subtitle"
+          .article-body-preview data-behavior="bind-body" data-to="article-body"
+          b.text-right data-behavior="bind-stamp" data-to="article-origin"

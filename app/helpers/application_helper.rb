@@ -53,13 +53,13 @@ end
 module Liberalism::DaterangeExtensions
   module FormBuilder
 
-    def daterange(label, begin_date, addon, end_date)
-      input(begin_date, as: :string, wrapper: horizontal_wrapper('daterange'),
-            addon: addon, begin_date: begin_date, end_date: end_date,
-            label: label)
+    def daterange(label, begin_date, addon, end_date, options = {})
+      input(begin_date, options.merge(
+        as: :string, wrapper: horizontal_wrapper('daterange'),
+        addon: addon, begin_date: begin_date, end_date: end_date, label: label))
     end
 
-    def radio_buttons(attribute_name, collection, options={})
+    def radio_buttons(attribute_name, collection, options = {})
       args = [attribute_name, options.merge(
         as: :radio_buttons, wrapper: horizontal_wrapper('radiobuttons'),
         collection: collection, item_wrapper_tag: nil,
@@ -76,7 +76,7 @@ module Liberalism::DaterangeExtensions
   module StringInput
 
     def begin_date(opts)
-      hidden_text_fields @options[:begin_date], opts
+      hidden_text_fields @options[:begin_date], opts, @options[:input_html]
     end
 
     def addon(opts)
@@ -84,13 +84,13 @@ module Liberalism::DaterangeExtensions
     end
 
     def end_date(opts)
-      hidden_text_fields @options[:end_date], opts
+      hidden_text_fields @options[:end_date], opts, @options[:input_html]
     end
 
-    def hidden_text_fields(attribute, opts)
+    def hidden_text_fields(attribute, opts, input_html)
       ignore_name = "#{lookup_model_names.join('_')}[#{attribute}_ignore]"
       "#{template.text_field_tag(ignore_name, '', opts)
-      }#{template.hidden_field(object_name, attribute)}"
+      }#{template.hidden_field(object_name, attribute, input_html)}"
     end
   end
 

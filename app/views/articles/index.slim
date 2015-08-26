@@ -39,8 +39,3 @@
                   = link_to '刪除', article_path(article), class: 'btn btn-sm btn-default', method: :delete, data: {confirm: '你確定?'}
       nav.text-center
         = paginate @articles
-= content_for :javascripts
-  coffee:
-    $().ready ->
-      # activate selectize.js plugin
-      select = $('select').selectize(sortField: 'text')
