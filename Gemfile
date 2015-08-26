@@ -44,10 +44,14 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 # Authentication
 gem 'devise'
 gem 'simple_form'
+gem 'nested_form'
 gem 'rails-i18n'
 
 # Validation
 gem 'reverse_markdown'
+
+# Secure HTTPS
+gem 'secure_headers'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
