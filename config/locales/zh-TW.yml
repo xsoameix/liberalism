@@ -6,8 +6,8 @@ zh-TW:
     attributes:
       article:
         daterange: '時間'
-        provider: '關於'
-        origin: '來源'
+        provider: '學者'
+        origin: '報社'
         tag: '分類'
         title: '標題'
         subtitle: '副標題'
