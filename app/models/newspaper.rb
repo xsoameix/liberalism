@@ -1,10 +1,4 @@
 class Newspaper < ActiveRecord::Base
-  belongs_to :author
-
-  class << self
-
-    def title
-      '報社'
-    end
-  end
+  validates_presence_of :name
+  validates_uniqueness_of :name
 end

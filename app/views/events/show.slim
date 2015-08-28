@@ -1,0 +1,49 @@
+.col-md-12
+  .row.panel-navbar
+    .col-md-6.col-md-offset-3
+      .btn-group.col-md-8.col-md-offset-2 role="group"
+        .col-md-6.btn.btn-default.active data-toggle="tab" data-target="#event-title"
+          | 相關資訊
+        .col-md-6.btn.btn-default data-toggle="tab" data-target="#event-body"
+          | 事件內文
+  .row
+    .col-md-12.tab-content
+      #event-title.row.tab-pane.fade.in.active
+        .col-md-6.col-md-offset-3
+          = notice_message
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 相關資訊
+                  .pull-right
+                    = link_to '返回', events_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              p
+                | 此篇事件的詳細資料。
+              dl.dl-horizontal
+                dt = @event.class.human_attribute_name(:title)
+                dd = @event.title
+                dt = @event.class.human_attribute_name(:daterange)
+                dd = daterange(@event)
+                dt = @event.class.human_attribute_name(:libertarian)
+                dd = @event.libertarian_name
+              = simple_form_for(@event, as: :event, html: {class: 'hidden form-horizontal'}, wrapper: :horizontal_form_2) do |f|
+                = f.input :title,
+                  input_html: {data: {behavior: 'bind', name: 'event-title'}}
+                = f.daterange '時間', :begin_date, '至', :end_date,
+                  input_html: {data: {behavior: 'bind-stamp-date', name: 'event-newspaper'}}
+                = f.input :body, as: :text,
+                  input_html: {data: {behavior: 'bind-body', name: 'event-body'}}
+      #event-body.row.tab-pane.fade
+        .col-md-6.col-md-offset-3
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 事件內文
+                  .pull-right
+                    = link_to '返回', events_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              h2 data-behavior="bind" data-to="event-title"
+              .panel-body-preview data-behavior="bind-body" data-to="event-body"

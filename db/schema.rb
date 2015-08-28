@@ -11,52 +11,73 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150727204349) do
+ActiveRecord::Schema.define(version: 20150826054524) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "articles", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",          null: false
     t.string   "subtitle"
-    t.date     "begin_date"
-    t.date     "end_date"
+    t.date     "begin_date",     null: false
+    t.date     "end_date",       null: false
     t.text     "body"
-    t.integer  "tag_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-    t.integer  "origin_id"
-    t.integer  "provider_id"
+    t.integer  "tag_id",         null: false
+    t.integer  "newspaper_id",   null: false
+    t.integer  "libertarian_id", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
 
-  add_index "articles", ["origin_id"], name: "index_articles_on_origin_id", using: :btree
-  add_index "articles", ["provider_id"], name: "index_articles_on_provider_id", using: :btree
+  add_index "articles", ["libertarian_id"], name: "index_articles_on_libertarian_id", using: :btree
+  add_index "articles", ["newspaper_id"], name: "index_articles_on_newspaper_id", using: :btree
   add_index "articles", ["tag_id"], name: "index_articles_on_tag_id", using: :btree
 
-  create_table "authors", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "events", force: :cascade do |t|
+    t.string   "title",          null: false
+    t.date     "begin_date",     null: false
+    t.date     "end_date",       null: false
+    t.text     "body"
+    t.integer  "tag_id",         null: false
+    t.integer  "libertarian_id", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
   end
+
+  add_index "events", ["libertarian_id"], name: "index_events_on_libertarian_id", using: :btree
+  add_index "events", ["tag_id"], name: "index_events_on_tag_id", using: :btree
 
   create_table "libertarians", force: :cascade do |t|
-    t.integer  "author_id"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
-
-  add_index "libertarians", ["author_id"], name: "index_libertarians_on_author_id", using: :btree
 
   create_table "newspapers", force: :cascade do |t|
-    t.integer  "author_id"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  add_index "newspapers", ["author_id"], name: "index_newspapers_on_author_id", using: :btree
+  create_table "reports", force: :cascade do |t|
+    t.string   "title",          null: false
+    t.string   "subtitle"
+    t.date     "begin_date",     null: false
+    t.date     "end_date",       null: false
+    t.text     "body"
+    t.integer  "tag_id",         null: false
+    t.integer  "newspaper_id",   null: false
+    t.integer  "libertarian_id", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "reports", ["libertarian_id"], name: "index_reports_on_libertarian_id", using: :btree
+  add_index "reports", ["newspaper_id"], name: "index_reports_on_newspaper_id", using: :btree
+  add_index "reports", ["tag_id"], name: "index_reports_on_tag_id", using: :btree
 
   create_table "tags", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",       null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
@@ -83,5 +104,28 @@ ActiveRecord::Schema.define(version: 20150727204349) do
   add_index "users", ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true, using: :btree
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
+
+  create_table "writing_entries", force: :cascade do |t|
+    t.string   "title",      null: false
+    t.string   "vendor"
+    t.string   "author"
+    t.integer  "writing_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "writing_entries", ["writing_id"], name: "index_writing_entries_on_writing_id", using: :btree
+
+  create_table "writings", force: :cascade do |t|
+    t.date     "begin_date",     null: false
+    t.date     "end_date",       null: false
+    t.integer  "tag_id",         null: false
+    t.integer  "libertarian_id", null: false
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "writings", ["libertarian_id"], name: "index_writings_on_libertarian_id", using: :btree
+  add_index "writings", ["tag_id"], name: "index_writings_on_tag_id", using: :btree
 
 end

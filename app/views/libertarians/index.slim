@@ -1,0 +1,28 @@
+.col-md-4.col-md-offset-4
+  = notice_message
+  .panel.panel-default.panel-bright
+    .panel-heading
+      .panel-title
+        h4
+          | 學者列表
+          .btn-group.pull-right role="group" aria-label="選項"
+            = link_to '新增', new_libertarian_path, class: 'btn btn-default btn-sm'
+    .panel-body
+      p
+        | 學者。
+    table.table.table-hover
+      thead
+        tr.text-center
+          td.col-md-2 #
+          td.col-md-5 名稱
+          td.col-md-5
+      tbody
+        - i = 0
+        - @libertarians.each do |libertarian|
+          tr.vertical-align.text-center
+            td = i += 1
+            td = link_to libertarian.name, libertarian_path(libertarian)
+            td
+              .btn-group role="group"
+                = link_to '編輯', edit_libertarian_path(libertarian), class: 'btn btn-sm btn-default'
+                = link_to '刪除', libertarian_path(libertarian), class: 'btn btn-sm btn-default', method: :delete, data: {confirm: '你確定?'}

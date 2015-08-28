@@ -1,10 +1,10 @@
-class ArticlesController < ApplicationController
-  before_action :authenticate_user!
+class ArticlesController < AdminController
 
   respond_to :html
 
   def index
-    @providers, @origins = Author::Genre.map { |g| g.includes(:author) }
+    @newspapers = Newspaper.all
+    @libertarians = Libertarian.all
     @q = Article.ransack(params[:q])
     @q.sorts = 'begin_date desc' if @q.sorts.empty?
     @articles = @q.result(distict: true).page(params[:page])
@@ -12,14 +12,14 @@ class ArticlesController < ApplicationController
 
   def new
     @article = Article.new
-    @providers, @origins = Author::Genre.map { |g| g.includes(:author) }
-    @tags = Tag.all
+    @newspapers = Newspaper.all
+    @libertarians = Libertarian.all
   end
 
   def edit
     @article = Article.find(params[:id])
-    @providers, @origins = Author::Genre.map { |g| g.includes(:author) }
-    @tags = Tag.all
+    @newspapers = Newspaper.all
+    @libertarians = Libertarian.all
     respond_with(@article)
   end
 
@@ -30,10 +30,10 @@ class ArticlesController < ApplicationController
   def create
     @article = Article.new(article_params)
     if @article.save
-      flash[:notice] = '已新增一篇文章'
+      flash[:notice] = '已新增一篇專欄。'
     else
-      @providers, @origins = Author::Genre.map { |g| g.includes(:author) }
-      @tags = Tag.all
+      @newspapers = Newspaper.all
+      @libertarians = Libertarian.all
     end
     respond_with(@article)
   end
@@ -41,10 +41,10 @@ class ArticlesController < ApplicationController
   def update
     @article = Article.find(params[:id])
     if @article.update_attributes(article_params)
-      flash[:notice] = '已更新一篇文章。'
+      flash[:notice] = '已更新一篇專欄。'
     else
-      @providers, @origins = Author::Genre.map { |g| g.includes(:author) }
-      @tags = Tag.all
+      @newspapers = Newspaper.all
+      @libertarians = Libertarian.all
     end
     respond_with(@article)
   end
@@ -52,7 +52,7 @@ class ArticlesController < ApplicationController
   def destroy
     @article = Article.find(params[:id])
     if @article.destroy
-      flash[:notice] = '已刪除一篇文章。'
+      flash[:notice] = '已刪除一篇專欄。'
     end
     respond_with(@article)
   end
@@ -60,7 +60,7 @@ class ArticlesController < ApplicationController
   private
 
   def article_params
-    params.require(:article).permit *%i(
-      title subtitle provider_id origin_id begin_date end_date body tag_id)
+    params.require(:article).permit *%i(title subtitle
+      begin_date end_date body newspaper_id libertarian_id)
   end
 end

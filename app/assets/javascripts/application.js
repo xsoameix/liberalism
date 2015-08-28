@@ -12,6 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require jquery_nested_form
 //= require turbolinks
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker/core
@@ -25,4 +26,4 @@
 //= require codemirror-markdown
 //= require codemirror-continuelist
 //= require common
-//= require article
+//= require panel

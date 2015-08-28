@@ -1,0 +1,28 @@
+.col-md-4.col-md-offset-4
+  = notice_message
+  .panel.panel-default.panel-bright
+    .panel-heading
+      .panel-title
+        h4
+          | 報社列表
+          .btn-group.pull-right role="group" aria-label="選項"
+            = link_to '新增', new_newspaper_path, class: 'btn btn-default btn-sm'
+    .panel-body
+      p
+        | 報社。
+    table.table.table-hover
+      thead
+        tr.text-center
+          td.col-md-2 #
+          td.col-md-5 名稱
+          td.col-md-5
+      tbody
+        - i = 0
+        - @newspapers.each do |newspaper|
+          tr.vertical-align.text-center
+            td = i += 1
+            td = link_to newspaper.name, newspaper_path(newspaper)
+            td
+              .btn-group role="group"
+                = link_to '編輯', edit_newspaper_path(newspaper), class: 'btn btn-sm btn-default'
+                = link_to '刪除', newspaper_path(newspaper), class: 'btn btn-sm btn-default', method: :delete, data: {confirm: '你確定?'}

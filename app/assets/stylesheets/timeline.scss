@@ -1,0 +1,90 @@
+// override
+.vco-storyjs .container > h2.date {
+  margin-bottom: 10px;
+}
+
+// body
+.vco-storyjs .container {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+// header
+.vco-storyjs .container {
+  h3 {
+    font-size: 30px;
+  }
+  h4 {
+    font-size: 24px;
+  }
+  h5 {
+    font-size: 18px;
+  }
+  h6 {
+    font-size: 16px;
+  }
+  h3, h4, h5, h6 {
+    color: #333;
+  }
+  h4, h5, h6 {
+    margin-top: 20px;
+    margin-bottom: 10px;
+  }
+}
+
+// paragraph
+.vco-storyjs .vco-feature .container p {
+  margin-bottom: .5em;
+  line-height: 1.6;
+  color: #333;
+}
+.vco-storyjs .vco-feature .container > p {
+  font-size: 14px;
+  text-indent: 2em;
+}
+
+// list
+.vco-storyjs .container ul,
+.vco-storyjs .container ol {
+  padding-left: 40px;
+}
+.vco-storyjs .container ul {
+  list-style: disc;
+}
+.vco-storyjs .container ol {
+  list-style: decimal;
+}
+.vco-storyjs .container li > p {
+  margin: 0 0 .5em;
+}
+
+// blockquote
+.vco-storyjs .vco-feature .container > blockquote {
+  padding: 10px 20px;
+  margin: 0 0 20px;
+  border-left: 5px solid #eeeeee;
+}
+.vco-storyjs .vco-feature .container > blockquote p {
+  margin-top: 0;
+  padding-top: 0;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+// stamp
+.vco-storyjs .vco-feature .timeline-stamp {
+  font-weight: bold;
+  margin: .5em 0 0;
+  color: #333;
+}
+
+.pull-right {
+  float: right !important;
+}
+
+.clearfix:before, .clearfix:after {
+  content: " ";
+  display: table;
+}
+.clearfix:after {
+  clear: both;
+}

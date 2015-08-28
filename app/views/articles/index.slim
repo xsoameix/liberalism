@@ -2,37 +2,35 @@
   = notice_message
   = search_form_for(@q, html: {class: '', role: 'search'}) do |f|
     .panel.panel-default.panel-bright
-      .panel-heading.article-header-form-container
+      .panel-heading.panel-heading-form-container
         .panel-title
           h4
-            | 文章列表
-        .article-header-form
-          = f.select :provider_id_eq, options_from_collection_for_select(@providers.map(&:author), :id, :name), include_blank: true
-          = f.select :origin_id_eq, options_from_collection_for_select(@origins.map(&:author), :id, :name), include_blank: true
+            | 專欄列表
+        .panel-heading-form
+          = f.select :newspaper_id_eq, options_from_collection_for_select(@newspapers, :id, :name), include_blank: true
+          = f.select :libertarian_id_eq, options_from_collection_for_select(@libertarians, :id, :name), include_blank: true
           = f.submit '搜尋', class: 'btn btn-default'
           = link_to '新增', new_article_path, class: 'btn btn-default'
       .panel-body
         p
-          | 自由學者發表的專欄、發生過的重大事件及報導。
+          | 自由學者發表的專欄。
       table.table.table-hover
         thead
           tr
             td.col-sm-1.text-right #
+            td.col-sm-5 = Article.human_attribute_name(:title)
             td.col-sm-2 = sort_link(@q, :begin_date, Article.human_attribute_name(:daterange))
-            td.col-sm-1 = Article.human_attribute_name(:provider)
-            td.col-sm-1 = Article.human_attribute_name(:origin)
-            td.col-sm-4 = Article.human_attribute_name(:title)
-            td.col-sm-1.text-right = Article.human_attribute_name(:tag)
+            td.col-sm-1 = Article.human_attribute_name(:newspaper)
+            td.col-sm-1 = Article.human_attribute_name(:libertarian)
             td.col-sm-2
         tbody
           - @articles.each.with_index do |article, i|
             tr.vertical-align
               td.text-right = i + 1
-              td = article_daterange(article)
-              td = article.provider_name
-              td = article.origin_name
               td = link_to article.title, article_path(article)
-              td.text-right = article.tag_name
+              td = daterange(article)
+              td = article.newspaper_name
+              td = article.libertarian_name
               td.text-center
                 .btn-group role="group"
                   = link_to '編輯', edit_article_path(article), class: 'btn btn-sm btn-default'

@@ -1,15 +1,14 @@
 doctype html
 html
   head
-    title 自由學者管理系統
+    title 自由學者時間表
     = favicon_link_tag
-    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true
-    = javascript_include_tag 'application', 'data-turbolinks-track' => true
+    = stylesheet_link_tag    'timeline'
+    - googleapis = Pathname.new('//ajax.googleapis.com/ajax/libs')
+    - timelinejs = Pathname.new('//cdn.knightlab.com/libs/timeline/latest')
+    = javascript_include_tag googleapis + 'jquery/1.11.3/jquery.min.js'
+    = javascript_include_tag timelinejs + 'js/storyjs-embed.js'
+    = javascript_include_tag 'timeline'
     = csrf_meta_tags
   body
-    .container-fluid.panel-container
-      = render 'common/navbar'
-      .row
-        = yield
-      .row
-        .col-md-12 = render 'common/footer'
+    = yield

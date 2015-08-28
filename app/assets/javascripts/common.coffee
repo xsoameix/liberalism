@@ -41,6 +41,11 @@ $(document).on 'page:change', ->
   # Active the checked radiobox
   $('input[checked="checked"]').parent('.btn').addClass('active')
 
+  # Toggable button group
+  $('.btn-group > [data-toggle=tab]').on 'click', ->
+    $(this).addClass('active')
+      .siblings('[data-toggle=tab]').removeClass('active')
+
   # activate selectize.js plugin
   App.GlobalSelect = $('select').selectize(sortField: 'text')
 

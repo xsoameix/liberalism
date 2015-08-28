@@ -1,0 +1,12 @@
+.col-md-4.col-md-offset-4
+  .panel.panel-default.panel-bright
+    .panel-heading
+      .panel-title
+        h4
+          | 新增學者
+          .pull-right
+            = link_to '返回', libertarians_path, class: 'btn btn-default btn-sm'
+    .panel-body
+      p
+        | 請填入學者的相關資訊。
+      = render 'form', libertarian: @libertarian

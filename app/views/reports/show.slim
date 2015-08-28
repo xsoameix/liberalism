@@ -1,0 +1,59 @@
+.col-md-12
+  .row.panel-navbar
+    .col-md-6.col-md-offset-3
+      .btn-group.col-md-8.col-md-offset-2 role="group"
+        .col-md-6.btn.btn-default.active data-toggle="tab" data-target="#report-title"
+          | 相關資訊
+        .col-md-6.btn.btn-default data-toggle="tab" data-target="#report-body"
+          | 報導內文
+  .row
+    .col-md-12.tab-content
+      #report-title.row.tab-pane.fade.in.active
+        .col-md-6.col-md-offset-3
+          = notice_message
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 相關資訊
+                  .pull-right
+                    = link_to '返回', reports_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              p
+                | 此篇報導的詳細資料。
+              dl.dl-horizontal
+                dt = @report.class.human_attribute_name(:title)
+                dd = @report.title
+                dt = @report.class.human_attribute_name(:subtitle)
+                dd = @report.subtitle
+                dt = @report.class.human_attribute_name(:daterange)
+                dd = daterange(@report)
+                dt = @report.class.human_attribute_name(:newspaper)
+                dd = @report.newspaper_name
+                dt = @report.class.human_attribute_name(:libertarian)
+                dd = @report.libertarian_name
+              = simple_form_for(@report, as: :report, html: {class: 'hidden form-horizontal'}, wrapper: :horizontal_form_2) do |f|
+                = f.input :title,
+                  input_html: {data: {behavior: 'bind', name: 'report-title'}}
+                = f.input :subtitle,
+                  input_html: {data: {behavior: 'bind', name: 'report-subtitle'}}
+                = f.daterange '時間', :begin_date, '至', :end_date,
+                  input_html: {data: {behavior: 'bind-stamp-date', name: 'report-newspaper'}}
+                = f.association :newspaper, value: @report.newspaper_name,
+                  input_html: {data: {behavior: 'bind-stamp', name: 'report-newspaper'}}
+                = f.input :body, as: :text,
+                  input_html: {data: {behavior: 'bind-body', name: 'report-body'}}
+      #report-body.row.tab-pane.fade
+        .col-md-6.col-md-offset-3
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 報導內文
+                  .pull-right
+                    = link_to '返回', reports_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              h2 data-behavior="bind" data-to="report-title"
+              h3 data-behavior="bind" data-to="report-subtitle"
+              .panel-body-preview data-behavior="bind-body" data-to="report-body"
+              b.text-right data-behavior="bind-stamp" data-to="report-newspaper"

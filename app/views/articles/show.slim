@@ -1,46 +1,59 @@
 .col-md-12
-  .row
+  .row.panel-navbar
     .col-md-6.col-md-offset-3
-      = notice_message
-      .panel.panel-default.panel-bright
-        .panel-heading
-          .panel-title
-            h4
-              | 文章詳情
-              .pull-right
-                = link_to '返回', articles_path, class: 'btn btn-default btn-sm'
-        .panel-body
-          p
-            | 此篇文章的詳細資料。
-          dl.dl-horizontal
-            dt = @article.class.human_attribute_name(:provider)
-            dd = @article.provider_name
-            dt = @article.class.human_attribute_name(:origin)
-            dd = @article.origin_name
-            dt = @article.class.human_attribute_name(:daterange)
-            dd = article_daterange(@article)
-            dt = @article.class.human_attribute_name(:tag)
-            dd = @article.tag_name
-            dt = @article.class.human_attribute_name(:title)
-            dd = @article.title
-            dt = @article.class.human_attribute_name(:subtitle)
-            dd = @article.subtitle
-          = simple_form_for(@article, as: :article, html: {class: 'hidden form-horizontal'}, wrapper: :horizontal_form_2) do |f|
-            = f.association :origin, value: @article.origin_name,
-              input_html: {data: {behavior: 'bind-stamp', name: 'article-origin'}}
-            = f.daterange '時間', :begin_date, '至', :end_date,
-              input_html: {data: {behavior: 'bind-stamp-date', name: 'article-origin'}}
-            = f.input :title,
-              input_html: {data: {behavior: 'bind', name: 'article-title'}}
-            = f.input :subtitle,
-              input_html: {data: {behavior: 'bind', name: 'article-subtitle'}}
-            = f.input :body, as: :text,
-              input_html: {data: {behavior: 'bind-body', name: 'article-body'}}
+      .btn-group.col-md-8.col-md-offset-2 role="group"
+        .col-md-6.btn.btn-default.active data-toggle="tab" data-target="#article-title"
+          | 相關資訊
+        .col-md-6.btn.btn-default data-toggle="tab" data-target="#article-body"
+          | 專欄內文
   .row
-    .col-md-6.col-md-offset-3
-      .panel.panel-default.panel-bright
-        .panel-body
-          h2 data-behavior="bind" data-to="article-title"
-          h3 data-behavior="bind" data-to="article-subtitle"
-          .article-body-preview data-behavior="bind-body" data-to="article-body"
-          b.text-right data-behavior="bind-stamp" data-to="article-origin"
+    .col-md-12.tab-content
+      #article-title.row.tab-pane.fade.in.active
+        .col-md-6.col-md-offset-3
+          = notice_message
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 相關資訊
+                  .pull-right
+                    = link_to '返回', articles_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              p
+                | 此篇專欄的詳細資料。
+              dl.dl-horizontal
+                dt = @article.class.human_attribute_name(:title)
+                dd = @article.title
+                dt = @article.class.human_attribute_name(:subtitle)
+                dd = @article.subtitle
+                dt = @article.class.human_attribute_name(:daterange)
+                dd = daterange(@article)
+                dt = @article.class.human_attribute_name(:newspaper)
+                dd = @article.newspaper_name
+                dt = @article.class.human_attribute_name(:libertarian)
+                dd = @article.libertarian_name
+              = simple_form_for(@article, as: :article, html: {class: 'hidden form-horizontal'}, wrapper: :horizontal_form_2) do |f|
+                = f.input :title,
+                  input_html: {data: {behavior: 'bind', name: 'article-title'}}
+                = f.input :subtitle,
+                  input_html: {data: {behavior: 'bind', name: 'article-subtitle'}}
+                = f.daterange '時間', :begin_date, '至', :end_date,
+                  input_html: {data: {behavior: 'bind-stamp-date', name: 'article-newspaper'}}
+                = f.association :newspaper, value: @article.newspaper_name,
+                  input_html: {data: {behavior: 'bind-stamp', name: 'article-newspaper'}}
+                = f.input :body, as: :text,
+                  input_html: {data: {behavior: 'bind-body', name: 'article-body'}}
+      #article-body.row.tab-pane.fade
+        .col-md-6.col-md-offset-3
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 專欄內文
+                  .pull-right
+                    = link_to '返回', articles_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              h2 data-behavior="bind" data-to="article-title"
+              h3 data-behavior="bind" data-to="article-subtitle"
+              .panel-body-preview data-behavior="bind-body" data-to="article-body"
+              b.text-right data-behavior="bind-stamp" data-to="article-newspaper"

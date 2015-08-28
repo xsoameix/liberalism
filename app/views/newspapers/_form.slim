@@ -1,0 +1,6 @@
+= simple_form_for(newspaper, as: :newspaper, html: {class: 'form-horizontal'}, wrapper: :horizontal_form_3) do |f|
+  = f.input :name, autofocus: true
+  .form-group
+    .col-sm-9.col-sm-offset-3
+      .btn-group.pull-right role="group"
+        = f.button :submit, '確認'

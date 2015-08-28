@@ -4,8 +4,27 @@ nav.navbar.navbar-default.navbar-fixed-top
       a.navbar-brand href="/" 自由學者管理系統
     .collapse.navbar-collapse
       ul.nav.navbar-nav.navbar-right
-        = nav_link '文章列表', articles_path
-        = nav_link '作者管理', authors_path
+        li.dropdown
+          a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
+            | 時間表
+            b.caret
+          ul.dropdown-menu
+            li = link_to '全部', root_path
+            - begin_year = 1960
+            - years = [[1900, begin_year]] + 5.times.map do |x|
+              - [begin_date = begin_year + x * 10, begin_date + 10]
+            - years.each do |range|
+              - dates = range.map { |x| Date.new(x, 1, 1) }
+              - begin_date, end_date = dates.map { |d| d.strftime('%Y-%m-%d') }
+              li
+                = link_to range.join(' - '),
+                  root_path(begin_date: begin_date, end_date: end_date)
+        = nav_link '專欄', articles_path
+        = nav_link '報導', reports_path
+        = nav_link '事件', events_path
+        = nav_link '著作', writings_path
+        = nav_link '報社管理', newspapers_path
+        = nav_link '學者管理', libertarians_path
         li.dropdown
           a.dropdown-toggle href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"
             = current_user.username

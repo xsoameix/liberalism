@@ -1,0 +1,62 @@
+= simple_nested_form_for(writing, as: :writing, html: {class: 'form-horizontal'}, wrapper: :horizontal_form_2) do |f|
+  .row.panel-navbar
+    .col-md-6.col-md-offset-3
+      .btn-group.col-md-8.col-md-offset-2 role="group"
+        .col-md-6.btn.btn-default.active data-toggle="tab" data-target="#writing-info"
+          | 編輯相關資訊
+        .col-md-6.btn.btn-default data-toggle="tab" data-target="#writing-entries"
+          | 編輯著作清單
+  .row
+    .col-md-12.tab-content
+      #writing-info.row.tab-pane.fade.in.active
+        .col-md-6.col-md-offset-3
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 編輯相關資訊
+                  .pull-right
+                    = link_to '返回', writings_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              p
+                | 請填入著作相關資料。
+              = f.daterange '時間', :begin_date, '至', :end_date,
+                input_html: {data: {behavior: 'bind-stamp-date', name: 'writing-newspaper'}}
+              = f.association :libertarian, collection: libertarians,
+                label_method: :name, value_method: :id
+      #writing-entries.row.tab-pane.fade.in
+        .col-md-6.col-md-offset-3
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 編輯著作清單
+                  .pull-right
+                    = link_to '返回', writings_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              p
+                | 請新增著作後填入相關資料。
+            table#writing-entries-table.table.table-hover
+              thead
+                tr
+                  td.col-sm-4 = WritingEntry.human_attribute_name(:title)
+                  td.col-sm-3 = WritingEntry.human_attribute_name(:vendor)
+                  td.col-sm-3 = WritingEntry.human_attribute_name(:author)
+                  td.col-sm-2
+              tbody
+                = f.simple_fields_for :writing_entries, wrapper: false do |w|
+                  tr.fields
+                    td = w.input :title, label: false
+                    td = w.input :vendor, label: false
+                    td = w.input :author, label: false
+                    td = w.link_to_remove '刪除著作',
+                      class: 'btn btn-sm btn-default'
+            ul.has-error
+              - writing.errors[:writing_entries].each do |error|
+                li: span.help-block = error
+            .btn-group.pull-right role="group"
+              = f.link_to_add '新增著作', :writing_entries,
+                class: 'btn btn-primary',
+                data: {target: '#writing-entries-table'}
+              = f.button :submit, '確認'
+            .clearfix

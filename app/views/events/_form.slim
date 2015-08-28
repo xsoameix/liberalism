@@ -1,0 +1,124 @@
+= simple_form_for(event, as: :event, html: {class: 'form-horizontal'}, wrapper: :horizontal_form_2) do |f|
+  .row.panel-navbar
+    .col-md-6.col-md-offset-3
+      .btn-group.col-md-10.col-md-offset-1 role="group"
+        .col-md-4.btn.btn-default.active data-toggle="tab" data-target="#event-title"
+          | 編輯相關資訊
+        .col-md-4.btn.btn-default data-toggle="tab" data-target="#event-body" data-refresh="event-body"
+          | 編輯事件內文
+        .col-md-4.btn.btn-default data-toggle="tab" data-target="#event-help"
+          | 注意事項
+  .row
+    .col-md-12.tab-content
+      #event-title.row.tab-pane.fade.in.active
+        .col-md-6.col-md-offset-3
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 編輯相關資訊
+                  .pull-right
+                    = link_to '返回', events_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              p
+                | 請填入事件相關資料。
+              = f.input :title, hint: '範例：「反軍人干政，張國龍等六人加入絕食」',
+                input_html: {data: {behavior: 'bind', name: 'event-title'}}
+              = f.daterange '時間', :begin_date, '至', :end_date,
+                input_html: {data: {behavior: 'bind-stamp-date', name: 'event-newspaper'}}
+              = f.association :libertarian, collection: libertarians,
+                label_method: :name, value_method: :id
+      #event-body.row.tab-pane.fade
+        .col-md-12
+          .panel.panel-default.panel-bright
+            .panel-heading
+              .panel-title
+                h4
+                  | 編輯事件內文
+                  .pull-right
+                    = link_to '返回', events_path, class: 'btn btn-default btn-sm'
+            .panel-body
+              .row
+                .col-md-6
+                  .pull-right.btn.btn-default.btn-sm data-behavior="bind-example" data-to="event-body"
+                    | 看範例
+                    pre.hidden
+                      = render file: 'events/body_example.md'
+                  h5
+                    | 右邊可點選點選按鈕看範例，請更改裡面的內容，預覽會根據內容會自動刷新。
+                  = f.input :body, wrapper: :inline_form,
+                    wrapper_html: {class: 'panel-inline-form'},
+                    input_html: {data: {behavior: 'bind-body', name: 'event-body'}}
+                  .form-group
+                    .col-sm-9.col-sm-offset-3
+                      .btn-group.pull-right role="group"
+                        = f.button :submit, '確認'
+                .col-md-6
+                  h2 data-behavior="bind" data-to="event-title"
+                  .panel-body-preview data-behavior="bind-body" data-to="event-body"
+                  b.text-right data-behavior="bind-stamp" data-to="event-newspaper"
+      #event-help.row.tab-pane.fade
+        .col-md-6.col-md-offset-3
+          .panel.panel-default.panel-bright
+            .panel-body.panel-example
+              h3 注意事項
+              h4 標題
+              p
+                | 請在段落間的標題前面加上「#」、「##」或是「###」的標記，愈多個「#」標題的重要層級就愈低、字體也就愈小，注意「#」後面要接至少一個空格，舉例來說：
+              pre data-behavior="bind-preview" data-name="event-title"
+                | # 衝動性凶殺案的特徵
+
+                  半個月以內所發生的這幾件令人震驚的凶殺慘案，有幾個共同的特點：除了縱火殺人的何維財，其他的兇嫌都是年輕人。這與一般殺人犯的年齡分佈大致相同。根據法務部犯罪問題研究中心在「犯罪狀況及其分析（中華民國六十九）」中所發表的資料，在六十九年的殺人犯中，十四歲至三十歲者約佔百分之八十以上。凶嫌大都在一時衝動或無法立卽...
+
+                  # 社會控制與自我控制
+
+                  在前舉的五件凶案中，弒母的高銘正曾有無故擕帶凶器的違警前科，殺傷三姐弟的陳曉濱則有偷竊的前科，其他兇嫌則全無前科。換句話說，衝動型命案的兇嫌大多是沒有前科，或僅有輕微的前科。在犯了嚴重命案以前，他們可能旣未參加幫派，也沒觸犯嚴形重法，看來都像是安善良民。因此，他們大都不是警察及其他治安人員的注意對象。而且，他們所做的傷害行為多是突發性的，常是...
+              p 這樣會輸出：
+              .panel-example-preview data-behavior="bind-preview" data-to="event-title"
+              h4 段落
+              p
+                | 段落間請空一行，屬於同一個段落的句子間不應該出現斷行，如果出現斷行則代表這是兩個不同的段落。舉例來說：
+              pre data-behavior="bind-preview" data-name="event-paragraph"
+                | 半個月以內所發生的這幾件令人震驚的凶殺慘案，有幾個共同的特點：除了縱火殺人的何維財，其他的兇嫌都是年輕人。這與一般殺人犯的年齡分佈大致相同。根據法務部犯罪問題研究中心在「犯罪狀況及其分析（中華民國六十九）」中所發表的資料，在六十九年的殺人犯中，十四歲至三十歲者約佔百分之八十以上。凶嫌大都在一時衝動或無法立卽...
+
+                  在前舉的五件凶案中，弒母的高銘正曾有無故擕帶凶器的違警前科，殺傷三姐弟的陳曉濱則有偷竊的前科，其他兇嫌則全無前科。換句話說，衝動型命案的兇嫌大多是沒有前科，或僅有輕微的前科。在犯了嚴重命案以前，他們可能旣未參加幫派，也沒觸犯嚴形重法，看來都像是安善良民。因此，他們大都不是警察及其他治安人員的注意對象。而且，他們所做的傷害行為多是突發性的，常是...
+              p 這樣會輸出：
+              .panel-example-preview data-behavior="bind-preview" data-to="event-paragraph"
+              p
+                | 提醒：不需要在段落前面加空白做縮排，格式的部份就交給程式去處理，程式可以在顯示的時候自動縮排。
+              h4 清單
+              p
+                | 請在感覺像是清單的段落前面加上「1.」、「2.」、「3.」等等的標記，注意「.」後面要接至少一個空格，若是沒有順序關係的清單，可以使用「*」，注意「*」後面要接至少一個空格，舉例來說：
+              pre data-behavior="bind-preview" data-name="event-list"
+                | 要防止錢財與政治相結合，必須落實到選舉中，只在口號上呼籲是不夠的，政府和執政黨應該在「實踐」的層次上表現出決心。我認為有三點值得努力：
+
+                  1.  執政黨人才濟濟，絕對有很多...
+
+                  2.  研擬出一套辦法，限制競選經費，並且嚴格...
+
+                  3.  賄選直接污染民主政治，而且有愈來愈...
+
+                  還有另外三點：
+
+                  *   執政黨人才濟濟，絕對有很多...
+
+                  *   研擬出一套辦法，限制競選經費，並且嚴格...
+
+                  *   賄選直接污染民主政治，而且有愈來愈...
+              p 這樣會輸出：
+              .panel-example-preview data-behavior="bind-preview" data-to="event-list"
+              h4 引用
+              p
+                | 請在引用的段落前面加上「>」，注意「>」後面要接至少一個空格
+              pre data-behavior="bind-preview" data-name="event-quotation"
+                | 最後引用「東京宣言」作為本文的結束，該宣言是「國際社會科學研究會」（I.S.SC.）所屬「常設環境破壞研究」於一九七○年在東京發表，其中指出：
+
+                  > 「人類之環境因其性質、內容具有整體的相互關連性在，因此，無論何種性質之破壞和傷害，都不僅會成為物質上破壞之原因，而且很有招徠社會組織的破綻、心理的不良影響和文人的混亂的可能性。從而，它與每個社會成員的福利的息息相關的。」
+
+                  又謂：
+
+                  > 「特別重要的是：我們要求人人都有享受自己的健康和福利的環境權，而不致被侵害；我們也要求現世代的人具有可以將包含自然美的自然資源，留給將來世代之權利。並把這些權利都視之為基本人權，且在法律體系中確立起來。」
+
+                  宣言强調我們人人有享受美好環境的權利，但也有保護生態環境的義務，為了我們本身，更為了世世代代的子孫。（本文作者係台大社會系教授）
+              p 這樣會輸出：
+              .panel-example-preview data-behavior="bind-preview" data-to="event-quotation"

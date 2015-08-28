@@ -48,6 +48,11 @@ module ApplicationHelper
       link_to text, path
     end
   end
+
+  def daterange(model)
+    [model.begin_date, model.end_date]
+    .map { |d| d.strftime '%Y/%m/%d' }.join ' - '
+  end
 end
 
 module Liberalism::DaterangeExtensions

@@ -4,17 +4,37 @@ zh-TW:
       libertarian: '學者'
       newspaper: '報社'
     attributes:
-      article:
-        daterange: '時間'
-        provider: '學者'
-        origin: '報社'
-        tag: '分類'
+      newspaper:
+        name: '名稱'
+      libertarian:
+        name: '姓名'
+      report:
         title: '標題'
         subtitle: '副標題'
+        daterange: '時間'
         body: '內文'
-      author:
-        name: '名稱'
-        genre: '類型'
+        newspaper: '報社'
+        libertarian: '學者'
+      article:
+        title: '標題'
+        subtitle: '副標題'
+        daterange: '時間'
+        body: '內文'
+        newspaper: '報社'
+        libertarian: '學者'
+      event:
+        title: '標題'
+        daterange: '時間'
+        body: '內文'
+        libertarian: '學者'
+      writing:
+        daterange: '時間'
+        libertarian: '學者'
+        writing_entries: '著作'
+      writing_entry:
+        title: '標題'
+        vendor: '出版社'
+        author: '作者'
   views:
     pagination:
       first: '&laquo; 第一頁'

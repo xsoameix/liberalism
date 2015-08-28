@@ -1,0 +1,39 @@
+.col-md-8.col-md-offset-2
+  = notice_message
+  = search_form_for(@q, html: {class: '', role: 'search'}) do |f|
+    .panel.panel-default.panel-bright
+      .panel-heading.panel-heading-form-container
+        .panel-title
+          h4
+            | 著作列表
+        .panel-heading-form
+          = f.select :libertarian_id_eq, options_from_collection_for_select(@libertarians, :id, :name), include_blank: true
+          = f.submit '搜尋', class: 'btn btn-default'
+          = link_to '新增', new_writing_path, class: 'btn btn-default'
+      .panel-body
+        p
+          | 自由學者發表的著作。
+      table.table.table-hover
+        thead
+          tr
+            td.col-sm-1.text-right #
+            td.col-sm-5 = WritingEntry.human_attribute_name(:title)
+            td.col-sm-3 = sort_link(@q, :begin_date, Writing.human_attribute_name(:daterange))
+            td.col-sm-1 = Writing.human_attribute_name(:libertarian)
+            td.col-sm-2
+        tbody
+          - @writings.each.with_index do |writing, i|
+            tr.vertical-align
+              td.text-right = i + 1
+              td
+                - writing.writing_entries.each do |writing_entry|
+                  = link_to writing_entry.title, writing_path(writing)
+                  br
+              td = daterange(writing)
+              td = writing.libertarian_name
+              td.text-center
+                .btn-group role="group"
+                  = link_to '編輯', edit_writing_path(writing), class: 'btn btn-sm btn-default'
+                  = link_to '刪除', writing_path(writing), class: 'btn btn-sm btn-default', method: :delete, data: {confirm: '你確定?'}
+      nav.text-center
+        = paginate @writings

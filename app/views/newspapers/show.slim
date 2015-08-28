@@ -1,0 +1,15 @@
+.col-md-4.col-md-offset-4
+  = notice_message
+  .panel.panel-default.panel-bright
+    .panel-heading
+      .panel-title
+        h4
+          | 關於此報社
+          .pull-right
+            = link_to '返回', newspapers_path, class: 'btn btn-default btn-sm'
+    .panel-body
+      p
+        | 報社的相關資料。
+      dl.dl-horizontal
+        dt = @newspaper.class.human_attribute_name :name
+        dd = @newspaper.name

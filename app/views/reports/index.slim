@@ -1,0 +1,39 @@
+.col-md-10.col-md-offset-1
+  = notice_message
+  = search_form_for(@q, html: {class: '', role: 'search'}) do |f|
+    .panel.panel-default.panel-bright
+      .panel-heading.panel-heading-form-container
+        .panel-title
+          h4
+            | 報導列表
+        .panel-heading-form
+          = f.select :newspaper_id_eq, options_from_collection_for_select(@newspapers, :id, :name), include_blank: true
+          = f.select :libertarian_id_eq, options_from_collection_for_select(@libertarians, :id, :name), include_blank: true
+          = f.submit '搜尋', class: 'btn btn-default'
+          = link_to '新增', new_report_path, class: 'btn btn-default'
+      .panel-body
+        p
+          | 自由學者的相關報導。
+      table.table.table-hover
+        thead
+          tr
+            td.col-sm-1.text-right #
+            td.col-sm-5 = Report.human_attribute_name(:title)
+            td.col-sm-2 = sort_link(@q, :begin_date, Report.human_attribute_name(:daterange))
+            td.col-sm-1 = Report.human_attribute_name(:newspaper)
+            td.col-sm-1 = Report.human_attribute_name(:libertarian)
+            td.col-sm-2
+        tbody
+          - @reports.each.with_index do |report, i|
+            tr.vertical-align
+              td.text-right = i + 1
+              td = link_to report.title, report_path(report)
+              td = daterange(report)
+              td = report.newspaper_name
+              td = report.libertarian_name
+              td.text-center
+                .btn-group role="group"
+                  = link_to '編輯', edit_report_path(report), class: 'btn btn-sm btn-default'
+                  = link_to '刪除', report_path(report), class: 'btn btn-sm btn-default', method: :delete, data: {confirm: '你確定?'}
+      nav.text-center
+        = paginate @reports

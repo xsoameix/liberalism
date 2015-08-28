@@ -5,7 +5,10 @@ class Markdown
     c.load(Rails.root + 'vendor/assets/javascripts/markdown.js')
   end
 
-  def self.to_html(string)
-    Context.eval("window.markdown.toHTML(#{string.inspect})")
+  class << self
+
+    def to_html(string)
+      Context.eval("window.markdown.toHTML(#{string.inspect})")
+    end
   end
 end
